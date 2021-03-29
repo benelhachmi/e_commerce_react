@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from './component/header/Header'
+import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {createStore } from 'redux';
+import {Provider} from 'react-redux';
+
+
+import Content from './component/content/Content';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import reducer from './reducer/reducer';
+
+export const  store = createStore(reducer);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <Provider store={store}>
+    <BrowserRouter>
+    <React.Fragment>
+        <Header/>
+        <Switch>
+            <Route exact path={'/'} render={() => {
+                return <Redirect to={'/products'}/>
+            }}/>
+            <Route exact path={'/products'} component={Content}/>
+          
+        </Switch>
+        
+    </React.Fragment>
+    </BrowserRouter>
+</Provider>
   );
 }
 
